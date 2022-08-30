@@ -57,6 +57,11 @@ describe("Search", () => {
     const products = await driver.findElements(
       By.css("tr[data-testid='product-row']")
     );
-    const textOfFirstProduct = await products[0].getText();
+
+    const productTexts = await Promise.all(
+      products.map(async (product) => product.getText())
+    );
+
+    expect(productTexts.every((text) => text.includes("fruit"))).toBe(true);
   });
 });
